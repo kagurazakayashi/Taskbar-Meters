@@ -3,3 +3,13 @@
 ################################################################################
 
 /TaskbarBatteryMeter/bin/Debug
+/TaskbarBatteryMeter/obj/Debug
+/TaskbarCore/obj/Debug
+/TaskbarCore/bin/Debug
+/.vs/TaskbarMeters/v14
+/TaskbarCpuMeter/bin/Debug
+/TaskbarCpuMeter/obj/Debug
+/TaskbarMemoryMeter/obj/Debug
+/TaskbarMemoryMeter/bin/Debug
+/TaskbarDiskIOMeter/obj/Debug
+/TaskbarDiskIOMeter/bin/Debug
