@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using TaskbarCore.Properties;
@@ -48,10 +49,7 @@ namespace TaskbarCore
 			_timer = new Timer(_settings.UpdateFrequency);
 			_timer.Elapsed += delegate
 			{
-				if (Tick != null)
-				{
-					Tick(this, EventArgs.Empty);
-				}
+				Tick?.Invoke(this, EventArgs.Empty);
 			};
 
 			InitializeComponent();
@@ -70,11 +68,11 @@ namespace TaskbarCore
 			redSlider.SetBinding(RangeBase.MinimumProperty, binding);
 
 			var thisAssembly = Assembly.GetEntryAssembly();
-			var title = ((AssemblyTitleAttribute)thisAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false).FirstOrDefault()).Title;
-			TaskbarManager.Instance.ApplicationId = title;
-			var company = ((AssemblyCompanyAttribute)thisAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false).FirstOrDefault()).Company;
-			Title = title;
-			linkText.Text = title + " by " + company;
+			var appTitle = ((AssemblyTitleAttribute)thisAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false).FirstOrDefault()).Title;
+			TaskbarManager.Instance.ApplicationId = appTitle;
+			var appCompany = ((AssemblyCompanyAttribute)thisAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false).FirstOrDefault()).Company;
+			Title = appTitle;
+			linkText.Text = appTitle + " by " + appCompany;
 
 			_timer.Start();
 
@@ -123,7 +121,7 @@ namespace TaskbarCore
 			get { return _jumpList; }
 		}
 
-		public void SetTaskBarStatus(int value)
+		public void SetTaskBarStatus(int value, string text)
 		{
 			if (value < 0)
 			{
@@ -143,6 +141,9 @@ namespace TaskbarCore
 
 			TaskbarManager.Instance.SetProgressState(state);
 			TaskbarManager.Instance.SetProgressValue(value, 100);
+
+			// Update the title of the window w/the percentage
+			Dispatcher.Invoke(DispatcherPriority.Normal, (Action) (() => { Title = text; }));
 		}
 
 		private void SetFrequencyText()

@@ -24,7 +24,8 @@ namespace TaskbarCpuMeter
 
 		private void WhenTimerTick(object sender, EventArgs e)
 		{
-			((MainWindow)sender).SetTaskBarStatus((int)_counter.NextValue());
+			var value = (int)_counter.NextValue();
+			((MainWindow)sender).SetTaskBarStatus(value, $"CPU: {value}%");
 		}
 	}
 }

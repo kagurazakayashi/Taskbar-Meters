@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using TaskbarCore;
-using TaskbarDiskIOMeter.Properties;
 
 namespace TaskbarDiskIOMeter
 {
@@ -21,7 +20,8 @@ namespace TaskbarDiskIOMeter
 
 		private void WhenTimerTick(object sender, EventArgs e)
 		{
-            ((MainWindow)sender).SetTaskBarStatus((int)_counter.NextValue());
+			var value = (int)_counter.NextValue();
+			((MainWindow)sender).SetTaskBarStatus(value, $"Disk: {value}%");
 		}
 	}
 }
