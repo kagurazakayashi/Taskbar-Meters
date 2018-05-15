@@ -42,7 +42,7 @@ namespace TaskbarCore
 		{
 			if (!TaskbarManager.IsPlatformSupported)
 			{
-				MessageBox.Show("Sorry, but this app only works on Window 7.", "Aw snap!", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("至少需要 Windows 7 操作系统。", "系统不支持", MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.Shutdown();
 			}
 
@@ -72,7 +72,7 @@ namespace TaskbarCore
 			TaskbarManager.Instance.ApplicationId = appTitle;
 			var appCompany = ((AssemblyCompanyAttribute)thisAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false).FirstOrDefault()).Company;
 			Title = appTitle;
-			linkText.Text = appTitle + " by " + appCompany;
+			linkText.Text = appTitle + " 由 " + appCompany + " 制作";
 
 			_timer.Start();
 
@@ -102,12 +102,12 @@ namespace TaskbarCore
 
 			var systemFolder = Environment.GetFolderPath(Environment.SpecialFolder.System);
 
-			_jumpList.AddUserTasks(new JumpListLink(Path.Combine(systemFolder, "taskmgr.exe"), "Open Task Manager")
+			_jumpList.AddUserTasks(new JumpListLink(Path.Combine(systemFolder, "taskmgr.exe"), "启动任务管理器")
 			{
 				IconReference = new IconReference(Path.Combine(systemFolder, "taskmgr.exe"), 0)
 			});
 
-			_jumpList.AddUserTasks(new JumpListLink(Path.Combine(systemFolder, "perfmon.exe"), "Open Resource Monitor")
+			_jumpList.AddUserTasks(new JumpListLink(Path.Combine(systemFolder, "perfmon.exe"), "启动资源监视器")
 			{
 				IconReference = new IconReference(Path.Combine(systemFolder, "perfmon.exe"), 0),
 				Arguments = "/res"
@@ -148,17 +148,17 @@ namespace TaskbarCore
 
 		private void SetFrequencyText()
 		{
-			updateFrequencyTextBlock.Text = $"Update freqency: {slider.Value} second{(slider.Value > 1 ? "s" : "")}";
+			updateFrequencyTextBlock.Text = $"更新间隔: {slider.Value} 秒{(slider.Value > 1 ? "s" : "")}";
 		}
 
 		private void SetYellowText()
 		{
-			yellowTextBlock.Text = $"Yellow: {yellowSlider.Value}%";
+			yellowTextBlock.Text = $"黄条: {yellowSlider.Value}%";
 		}
 
 		private void SetRedText()
 		{
-			redTextBlock.Text = $"Red: {redSlider.Value}%";
+			redTextBlock.Text = $"红条: {redSlider.Value}%";
 		}
 
 		protected override void OnClosed(EventArgs e)
@@ -200,7 +200,7 @@ namespace TaskbarCore
 			}
 			catch (Exception exception)
 			{
-				MessageBox.Show("Sorry, couldn't navigate to the website.\n\n" + exception.Message, "Navigation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("抱歉，未能成功打开浏览器并访问网站。\n" + exception.Message, "网站打开失败", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 	}
