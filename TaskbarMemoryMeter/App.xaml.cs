@@ -46,7 +46,7 @@ namespace TaskbarMemoryMeter
 				suffix = "bytes";
 			}
 
-			((MainWindow)sender).SetTaskBarStatus(usedPercent, $"RAM: {usedDisplay:n2} {suffix}");
+			((MainWindow)sender).SetTaskBarStatus(usedPercent, $"{usedDisplay:n2} {suffix}");
 		}
 	}
 }

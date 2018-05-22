@@ -21,7 +21,7 @@ namespace TaskbarDiskIOMeter
 		private void WhenTimerTick(object sender, EventArgs e)
 		{
 			var value = (int)_counter.NextValue();
-			((MainWindow)sender).SetTaskBarStatus(value, $"Disk: {value}%");
+			((MainWindow)sender).SetTaskBarStatus(value, $"{value}%");
 		}
 	}
 }
